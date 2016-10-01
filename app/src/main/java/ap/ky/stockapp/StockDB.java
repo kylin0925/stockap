@@ -40,6 +40,7 @@ public class StockDB {
     }
     ArrayList<DBStruct> datalist = new ArrayList<DBStruct>();
     ArrayList<String> namelist = new ArrayList<String>();
+    ArrayList<String> numberlist = new ArrayList<String>();
     public StockDB(Context context) {
         this.context = context;
     }
@@ -105,6 +106,21 @@ public class StockDB {
         while (c.moveToNext()){
             namelist.add(c.getString(0));
         }
+
         return namelist;
+    }
+    ArrayList<String> queryCompNum(){
+        int benfit=0;
+        SQLiteDatabase  db = DBHelper.getDatabase(context);
+        ContentValues cv = new ContentValues();
+
+        Cursor c = db.query(true,"stock",new String[]{"compnum"},null,null,null,null,null,null);
+
+        while (c.moveToNext()){
+            numberlist.add(c.getString(0));
+            Log.e(TAG,c.getString(0));
+        }
+
+        return numberlist;
     }
 }

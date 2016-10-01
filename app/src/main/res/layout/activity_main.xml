@@ -13,6 +13,8 @@
         android:id="@+id/txtDate"
         android:textSize="30dp" />
 
+
+
     <RadioGroup
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -39,41 +41,44 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Number"
             android:id="@+id/textView"
             android:layout_weight="3" />
 
-        <EditText
-            android:layout_width="fill_parent"
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/edtNumber"
-            android:layout_weight="1"
-            android:inputType="number" />
+            android:id="@+id/actxtNumber"
 
+            android:inputType="number"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name"
             android:id="@+id/textView2"
             android:layout_weight="3" />
 
-        <EditText
-            android:layout_width="fill_parent"
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editName"
+            android:id="@+id/actxtName"
+            android:lines="1"
+            android:inputType="text"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -95,7 +100,9 @@
             android:inputType="number"
             android:id="@+id/edtStock"
             android:layout_weight="1"
-            android:numeric="integer" />
+            android:numeric="integer"
+            tools:text="0"
+            android:text="0" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -115,7 +122,9 @@
             android:inputType="number|numberDecimal"
             android:id="@+id/edtunitprice"
             android:layout_weight="1"
-            android:numeric="integer" />
+            android:numeric="integer"
+            tools:text="0"
+            android:text="0" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -148,5 +157,6 @@
         android:layout_height="wrap_content"
         android:text="Detail"
         android:id="@+id/btnDetail" />
+
 
 </LinearLayout>

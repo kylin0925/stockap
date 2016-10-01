@@ -60,4 +60,11 @@ public class DateUtil {
         String dts1 = sdf.format(calendar.getTime());
         return dts1;
     }
+    public static String getFullDate(int year,int month,int day,int hour,int minute){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.set(year,month,day,hour,minute);
+        String dts = sdf.format(calendar.getTime());
+        return dts;
+    }
 }
