@@ -1,14 +1,17 @@
 package ap.ky.stockapp;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,17 +22,35 @@ public class DetailList extends AppCompatActivity {
     ListView listView;
     TextView txtBenfit;
     Spinner spinner;
+    Button btnModify;
+    ArrayList<DBStruct> dbStruct;
+    String TAG="DetailList";
+    int select = 0;
+    StockDB stockDB;
+    void loadData(){
+        Log.e(TAG,"loadData");
+        dbStruct = stockDB.queryData();
+
+        ListaAdapter listaAdapter = new ListaAdapter(this);
+        listaAdapter.setData(dbStruct);
+
+        listView.setAdapter(listaAdapter);
+        int benfit = stockDB.queryBenfit();
+
+        txtBenfit.setText(String.valueOf(benfit));
+        ArrayList<String> nameList = stockDB.queryName();
+        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,nameList));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_list);
 
-        StockDB stockDB = new StockDB(DetailList.this);
-        ArrayList<StockDB.DBStruct> dbStruct = stockDB.queryData();
-
+        stockDB = new StockDB(DetailList.this);
         listView = (ListView)findViewById(R.id.listView);
-        ListaAdapter listaAdapter = new ListaAdapter(this);
-        listaAdapter.setData(dbStruct);
+        txtBenfit = (TextView)findViewById(R.id.txtBenfit);
+        spinner = (Spinner)findViewById(R.id.spinner);
+
         View l = LayoutInflater.from(this).inflate(R.layout.items,null);
         TextView textView2 = (TextView)l.findViewById(R.id.txt2);
         TextView textView3 = (TextView)l.findViewById(R.id.txt3);
@@ -37,6 +58,7 @@ public class DetailList extends AppCompatActivity {
         TextView textView6 = (TextView)l.findViewById(R.id.txt6);
         TextView textView7 = (TextView)l.findViewById(R.id.txt7);
         TextView textView8 = (TextView)l.findViewById(R.id.txt8);
+        listView.addHeaderView(l);
 
         textView2.setText("date");
         textView3.setText("name");
@@ -47,18 +69,56 @@ public class DetailList extends AppCompatActivity {
 
 
 
-        listView.addHeaderView(l);
-        listView.setAdapter(listaAdapter);
+        listView.setOnItemClickListener(onItemClickListener);
 
-        int benfit = stockDB.queryBenfit();
-        txtBenfit = (TextView)findViewById(R.id.txtBenfit);
-        txtBenfit.setText(String.valueOf(benfit));
+        btnModify = (Button)findViewById(R.id.btnModify);
+        btnModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dbStruct.size() > 0) {
 
-        ArrayList<String> nameList = stockDB.queryName();
-        spinner = (Spinner)findViewById(R.id.spinner);
-        spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,nameList));
+                    DBStruct data = dbStruct.get(select);
+
+                    //Log.e(TAG,"" + row.company);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("data", data);
+
+                    Intent intent = new Intent(DetailList.this, ModifyData.class);
+                    intent.putExtras(bundle);
+
+                    startActivityForResult(intent,0);
+                    
+
+                }
+            }
+        });
+
+        loadData();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        loadData();
+    }
+
+    View itemrow;
+    AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            if(i>0) {
+                DBStruct row = dbStruct.get(i - 1);
+                Log.e(TAG, "" + row.recid + " " + row.company);
+                select = i - 1;
+                if (itemrow != null) {
+                    itemrow.setBackgroundColor(Color.WHITE);
+                }
+                itemrow = view;
+                view.setBackgroundColor(Color.RED);
+            }
+        }
+    };
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

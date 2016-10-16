@@ -6,17 +6,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by kylin25 on 2016/8/24.
  */
 public class StockDB {
+
     private static final String TAG = "StockDB";
     public static int TYPE_BUY = 0;
     public static int TYPE_SELL = 1;
     public static int TYPE_DIVIEND = 2;
     Context context;
+    static  String STOCKTBL = "stock";
 //    String CREATE_TABLE = "CREATE TABLE stock (" +
 //            "ID INTEGER," +
 //            "DATE TEXT," +
@@ -28,16 +31,21 @@ public class StockDB {
 //            "type INTEGER," +
 //            "PRIMARY KEY(ID)" +
 //            ")";
-    public class DBStruct{
-        public int recid;
-        public String date;
-        public String company;
-        public String compnum;
-        public int stocks;
-        public float stockprice;
-        public int totalprice ;
-        public int type;
-    }
+//    public class DBStruct implements Serializable {
+//        private static final long serialVersionUID = 1L;
+//        public int recid;
+//        public String date;
+//        public String company;
+//        public String compnum;
+//        public int stocks;
+//        public float stockprice;
+//        public int totalprice ;
+//        public int type;
+//        public DBStruct(){
+//
+//        }
+//
+//    }
     ArrayList<DBStruct> datalist = new ArrayList<DBStruct>();
     ArrayList<String> namelist = new ArrayList<String>();
     ArrayList<String> numberlist = new ArrayList<String>();
@@ -64,7 +72,7 @@ public class StockDB {
         ContentValues cv = new ContentValues();
 
         Cursor c = db.query("stock", null, null, null, null, null, null);
-
+        datalist.clear();
         while (c.moveToNext()){
             DBStruct item = new DBStruct();
             item.recid = c.getInt(0);
@@ -122,5 +130,22 @@ public class StockDB {
         }
 
         return numberlist;
+    }
+    void updateData(String date,String company,String compnum,int stocks,float stockprice,
+                    int totalprice ,int type,int updateid){
+        SQLiteDatabase  db = DBHelper.getDatabase(context);
+        ContentValues cv = new ContentValues();
+
+        cv.put("date", date);
+        cv.put("company", company);
+        cv.put("compnum", compnum);
+        cv.put("stocks", stocks);
+        cv.put("stocksprice", stockprice);
+        cv.put("total", totalprice);
+        cv.put("stocktype", type);
+
+        String[] whereargs = new String[]{String.valueOf(updateid)};
+        db.update(STOCKTBL,cv,"id=?", whereargs);
+
     }
 }

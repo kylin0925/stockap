@@ -13,12 +13,12 @@ import java.util.ArrayList;
  * Created by kylin25 on 2016/8/28.
  */
 public class ListaAdapter extends BaseAdapter {
-    ArrayList<StockDB.DBStruct> arrayList = new ArrayList<StockDB.DBStruct>();
+    ArrayList<DBStruct> arrayList = new ArrayList<DBStruct>();
     Context context;
     public ListaAdapter(Context context){
         this.context = context;
     }
-    public  void setData( ArrayList<StockDB.DBStruct> arrayList){
+    public  void setData( ArrayList<DBStruct> arrayList){
         this.arrayList = arrayList;
     }
     @Override
