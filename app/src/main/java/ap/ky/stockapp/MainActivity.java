@@ -112,9 +112,9 @@ public class MainActivity extends AppCompatActivity {
 
                 String txt = edtStock.getText().toString();
                 Log.e(TAG, " " + txt);
-                if (txt.equals("") == true) {
-                    edtStock.setText("0");
-                }
+//                if (txt.equals("") == true) {
+//                    edtStock.setText("0");
+//                }
                 calcTotal();
             }
 
@@ -133,9 +133,9 @@ public class MainActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String txt = edtUnitPrice.getText().toString();
                 Log.e(TAG, " " + txt);
-                if (txt.equals("") == true) {
-                    edtStock.setText("0");
-                }
+//                if (txt.equals("") == true) {
+//                    edtStock.setText("0");
+//                }
                 calcTotal();
             }
 
@@ -200,10 +200,11 @@ public class MainActivity extends AppCompatActivity {
     void calcTotal(){
         String edtstock = edtStock.getText().toString();
         String edtunit = edtUnitPrice.getText().toString();
-        if(!(edtstock.equals("") && edtunit.equals(""))) {
+
+        if(edtstock.equals("") == false && edtunit.equals("") == false) {
             int stock = Integer.parseInt(edtstock);
             double unit = Double.parseDouble(edtunit);
-            edtTotal.setText(String.valueOf(stock * unit));
+            edtTotal.setText(String.valueOf((int)(stock * unit)));
             Log.e(TAG,"total " + stock * unit);
         }
     }

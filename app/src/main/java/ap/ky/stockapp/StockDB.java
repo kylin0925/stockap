@@ -110,7 +110,7 @@ public class StockDB {
         ContentValues cv = new ContentValues();
 
         Cursor c = db.query(true,"stock",new String[]{"company"},null,null,null,null,null,null);
-
+        namelist.clear();
         while (c.moveToNext()){
             namelist.add(c.getString(0));
         }
@@ -123,7 +123,7 @@ public class StockDB {
         ContentValues cv = new ContentValues();
 
         Cursor c = db.query(true,"stock",new String[]{"compnum"},null,null,null,null,null,null);
-
+        numberlist.clear();
         while (c.moveToNext()){
             numberlist.add(c.getString(0));
             Log.e(TAG,c.getString(0));
@@ -146,6 +146,12 @@ public class StockDB {
 
         String[] whereargs = new String[]{String.valueOf(updateid)};
         db.update(STOCKTBL,cv,"id=?", whereargs);
+
+    }
+    void delData(int recid){
+        SQLiteDatabase  db = DBHelper.getDatabase(context);
+        String[] whereargs = new String[]{String.valueOf(recid)};
+        db.delete(STOCKTBL,"id=?", whereargs);
 
     }
 }

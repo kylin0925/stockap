@@ -1,9 +1,12 @@
 package ap.ky.stockapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,8 +26,10 @@ public class DetailList extends AppCompatActivity {
     TextView txtBenfit;
     Spinner spinner;
     Button btnModify;
+    Button btnDelete;
     ArrayList<DBStruct> dbStruct;
     String TAG="DetailList";
+    View itemrow;
     int select = 0;
     StockDB stockDB;
     void loadData(){
@@ -93,7 +98,28 @@ public class DetailList extends AppCompatActivity {
                 }
             }
         });
+        btnDelete = (Button)findViewById(R.id.btnDel);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dbStruct.size() > 0) {
 
+                    DBStruct data = dbStruct.get(select);
+                    new AlertDialog.Builder(DetailList.this).setTitle("Confirm")
+                            .setMessage("Delete ?")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    DBStruct data = dbStruct.get(select);
+                                    stockDB.delData(data.recid);
+                                    loadData();
+                                }
+                            })
+                            .setNegativeButton("Cancel",null)
+                            .show();
+                }
+            }
+        });
         loadData();
     }
 
@@ -103,7 +129,7 @@ public class DetailList extends AppCompatActivity {
         loadData();
     }
 
-    View itemrow;
+
     AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

@@ -21,17 +21,37 @@
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner" />
+                android:id="@+id/spinner"
+                android:layout_weight="2" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtBenfit" />
+                android:text="Income"
+                android:id="@+id/txtInc"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:id="@+id/txtBenfit"
+                android:layout_weight="2" />
             <Button
                 android:text="Modify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnModify" />
+                android:id="@+id/btnModify"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="Delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnDel"
+                android:layout_weight="1" />
+
         </LinearLayout>
 
         <ListView
